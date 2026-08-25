@@ -1,0 +1,12 @@
+Write a C program to find the sum of two matrices of order 2×2.
+Write a C program to find the difference of two matrices of order 2×2.
+Write a C program to find the multiplication of two matrices of order 2×2.
+
+Write a C program to find the transpose of a matrix of order 2×2.
+Write a C program to find the sum of all elements of a 2×2 matrix.
+Write a C program to find the sum of diagonal elements of a 2×2 matrix.
+
+Write a C program to find the largest and smallest element in a 2×2 matrix.
+Write a C program to check whether a 2×2 matrix is an identity matrix.
+Write a C program to calculate the determinant of a 2×2 matrix.
+Write a C program to display the upper triangular and lower triangular elements of a 2×2 matrix.
