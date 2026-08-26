@@ -1,6 +1,3 @@
-// WAP to calculate the average of all positive and negative numbers separately in an array.
-// WAP to find the second-largest number in an array of 10 integers.
-
 #include <stdio.h>
 
 void even_and_odd_elements(int array[], int size);
@@ -89,6 +86,7 @@ void search_in_array(int array[], int size, int key){
     for (int i = 0; i < size; i++){
         if (array[i] == key){
             printf("The item %d is at position %d\n", key, i);
+            return;
         }
     }
     printf("The item is not found\n");
