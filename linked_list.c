@@ -1,9 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void add_new_node_via_traversal(int new_data);
-void add_new_node_in_single_step(int new_data);
-void traverse();
+// first and last element deletion logic
+// check index of 0 and last in insert at index
+
+void append_via_traversal(int new_data);
+void append_in_single_step(int new_data);
+void prepend(int new_data);
+int length();
+int search(int value);
+void display();
+void delete_at(int index);
+void delete(int value);
+void insert_at_index(int index, int new_data);
+
+void reverse();
 
 struct Node{
     int data;
@@ -14,21 +25,29 @@ struct Node *head = NULL;
 struct Node *tail = NULL;
 
 int main(){
-    add_new_node_in_single_step(10);
-    add_new_node_in_single_step(20);
-    add_new_node_in_single_step(30);
-    add_new_node_in_single_step(40);
-    add_new_node_in_single_step(40);
-    add_new_node_in_single_step(40);
-    add_new_node_in_single_step(40);
-    add_new_node_in_single_step(40);
-    add_new_node_in_single_step(40);
-    add_new_node_in_single_step(40);
-    add_new_node_in_single_step(40);
-    traverse();
+    append_in_single_step(10);
+    append_in_single_step(20);
+    append_in_single_step(30);
+    append_in_single_step(40);
+    printf("Number of elements is %d\n", length());
+    display();
+    prepend(1);
+    prepend(2);
+    display();
+    printf("Number of elements is %d\n", length());
+
+    printf("The number 10 is at index %d\n", search(10));
+
+    display();
+    delete_at(3);
+    display();
+    delete(30);
+    display();
+    insert_at_index(2, 200);
+    display();
 }
 
-void add_new_node_via_traversal(int new_data){
+void append_via_traversal(int new_data){
     // naya node banao jisme data store hoga
     struct Node *new_node = malloc(sizeof(struct Node));
     new_node -> data = new_data;
@@ -53,7 +72,7 @@ void add_new_node_via_traversal(int new_data){
     return;
 }
 
-void add_new_node_in_single_step(int new_data){
+void append_in_single_step(int new_data){
     struct Node *new_node = malloc(sizeof(struct Node));
     new_node -> data = new_data;
     new_node -> next = NULL;
@@ -71,9 +90,9 @@ void add_new_node_in_single_step(int new_data){
 
 }
 
-void traverse(){
+void display(){
     if (head == NULL){
-        printf("Nothing to traverse my dear ‍❤️‍\n");
+        printf("Nothing to display my dear ‍❤️‍\n");
         return;
     }
     
@@ -86,3 +105,103 @@ void traverse(){
     printf("%d\n", start -> data);
 }
 
+void prepend(int new_data){
+    struct Node *new_node = malloc(sizeof(struct Node));
+    new_node -> data = new_data;
+    new_node -> next = head;
+    head = new_node;
+}
+
+int length(){
+    int count = 0;
+    struct Node *start = head;
+
+    while(start != NULL){
+        count++;
+        start = start -> next;
+    }
+    return count;
+}
+
+int search(int value){
+    int index = 0;
+
+    struct Node *start = head;
+
+    while(start != NULL){
+        if (start -> data == value){
+            return index;
+        }
+        index++;
+        start = start -> next;
+    }
+
+    return -1;
+}
+
+void delete_at(int index){
+    int pos = 0;
+
+    struct Node *current = head;
+    struct Node *prev;
+    struct Node *next;
+
+    while (current != NULL){
+        if (pos == index){
+            next = current -> next;
+            prev -> next = next;
+        }
+        prev = current;
+        current = current -> next;
+        pos++;
+    }
+    
+}
+
+void delete(int value){
+    struct Node *current = head;
+    struct Node *prev;
+    struct Node *next;
+
+    while (current != NULL){
+        if (current -> data == value){
+            next = current -> next;
+            prev -> next = next;
+        }
+        prev = current;
+        current = current -> next;
+    }
+    
+}
+
+void insert_at_index(int index, int new_data){
+    struct Node *new_node = malloc(sizeof(struct Node));
+    new_node -> data = new_data;
+    new_node -> next = NULL;
+
+    struct Node *current = head;
+    struct Node *prev;
+    struct Node *next;
+
+    int pos = 0;
+
+    while (current != NULL){
+        if (pos == index){
+            new_node -> next = current;
+            prev -> next = new_node;
+            return;
+        }
+        prev = current;
+        current = current -> next;
+        pos++;
+    }
+
+}
+
+
+void reverse(){
+    struct Node *current = tail;
+    struct Node *prev;
+    struct Node *next;
+
+}
