@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// first and last element deletion logic
 // check index of 0 and last in insert at index
+// deletion value logic for head and tail 
+// memory leak check
 
 void append_via_traversal(int new_data);
 void append_in_single_step(int new_data);
@@ -13,8 +14,8 @@ void display();
 void delete_at(int index);
 void delete(int value);
 void insert_at_index(int index, int new_data);
-
 void reverse();
+void print_msg(char *str);
 
 struct Node{
     int data;
@@ -39,11 +40,15 @@ int main(){
     printf("The number 10 is at index %d\n", search(10));
 
     display();
+
     delete_at(3);
     display();
     delete(30);
     display();
     insert_at_index(2, 200);
+    display();
+
+    reverse();
     display();
 }
 
@@ -88,6 +93,7 @@ void append_in_single_step(int new_data){
     tail -> next = new_node;
     tail = new_node;
 
+    print_msg("After Appening");
 }
 
 void display(){
@@ -110,6 +116,8 @@ void prepend(int new_data){
     new_node -> data = new_data;
     new_node -> next = head;
     head = new_node;
+
+    print_msg("After Prepending");
 }
 
 int length(){
@@ -146,16 +154,27 @@ void delete_at(int index){
     struct Node *prev;
     struct Node *next;
 
+    if (index == 0 && head != NULL){
+        head = head -> next;
+        free(current);
+        return;
+    }
+
     while (current != NULL){
         if (pos == index){
             next = current -> next;
             prev -> next = next;
+            if (current -> next == NULL){
+                tail = prev;
+            }
+            free(current);
+            print_msg("After Deletion at index");
+            return;
         }
         prev = current;
         current = current -> next;
         pos++;
     }
-    
 }
 
 void delete(int value){
@@ -171,6 +190,8 @@ void delete(int value){
         prev = current;
         current = current -> next;
     }
+
+    print_msg("After Deletion of value");
     
 }
 
@@ -189,6 +210,7 @@ void insert_at_index(int index, int new_data){
         if (pos == index){
             new_node -> next = current;
             prev -> next = new_node;
+            print_msg("After Inserting a value at some index");
             return;
         }
         prev = current;
@@ -196,12 +218,39 @@ void insert_at_index(int index, int new_data){
         pos++;
     }
 
+
 }
 
 
 void reverse(){
-    struct Node *current = tail;
-    struct Node *prev;
-    struct Node *next;
+    struct Node *current = head;
+    struct Node *prev = current;
+    struct Node *next = current -> next;
+    struct Node *head_bkp = head;
+    struct Node *tail_bkp = tail;
 
+    head -> next = NULL;
+
+    while (next != NULL){
+        current = next;
+        next = next -> next;
+        current -> next = prev;
+        prev = current;
+    }
+
+    head = tail_bkp;
+    tail = head_bkp;
+
+    print_msg("The list has been reversed");
+}
+
+void print_msg(char *str){
+    for (int i = 0; i < 30; i++) {
+        printf("=");
+    }
+    printf(" %s ", str);
+    for (int i = 0; i < 30; i++) {
+        printf("=");
+    }
+    printf("\n");
 }
