@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// check index of 0 and last in insert at index
 // deletion value logic for head and tail 
-// memory leak check
+// delete(int value) tail logic pending 
+// memory leak check, only changing pointers, not freeing the memory 
 
 void append_via_traversal(int new_data);
 void append_in_single_step(int new_data);
@@ -46,6 +46,8 @@ int main(){
     delete(30);
     display();
     insert_at_index(2, 200);
+    insert_at_index(0, 100000);
+    insert_at_index(0, 2391238);
     display();
 
     reverse();
@@ -131,6 +133,7 @@ int length(){
     return count;
 }
 
+
 int search(int value){
     int index = 0;
 
@@ -179,8 +182,13 @@ void delete_at(int index){
 
 void delete(int value){
     struct Node *current = head;
-    struct Node *prev;
-    struct Node *next;
+    struct Node *prev = NULL;
+    struct Node *next = NULL;
+
+    if (head -> data == value){
+        head = head -> next;
+        return;
+    }
 
     while (current != NULL){
         if (current -> data == value){
@@ -201,13 +209,24 @@ void insert_at_index(int index, int new_data){
     new_node -> next = NULL;
 
     struct Node *current = head;
-    struct Node *prev;
-    struct Node *next;
+    struct Node *prev = NULL;
 
-    int pos = 0;
+
+    if (index == 0){
+        new_node -> next = head;
+        head = new_node;
+        return;
+    }
+
+    if (index == length() - 1){
+        tail -> next = new_node;
+        return;
+    }
+
+    int insert_pos = 0;
 
     while (current != NULL){
-        if (pos == index){
+        if (insert_pos == index){
             new_node -> next = current;
             prev -> next = new_node;
             print_msg("After Inserting a value at some index");
@@ -215,7 +234,7 @@ void insert_at_index(int index, int new_data){
         }
         prev = current;
         current = current -> next;
-        pos++;
+        insert_pos++;
     }
 
 
