@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-// deletion value logic for head and tail 
-// delete(int value) tail logic pending 
-// memory leak check, only changing pointers, not freeing the memory 
+struct Node{
+    int data;
+    struct Node *next;
+};
 
 void append_via_traversal(int new_data);
 void append_in_single_step(int new_data);
@@ -16,11 +18,7 @@ void delete(int value);
 void insert_at_index(int index, int new_data);
 void reverse();
 void print_msg(char *str);
-
-struct Node{
-    int data;
-    struct Node *next;
-};
+bool unable_to_allocate_heap(struct Node *ptr);
 
 struct Node *head = NULL;
 struct Node *tail = NULL;
@@ -52,6 +50,12 @@ int main(){
 
     reverse();
     display();
+
+    delete(2391238);
+    display();
+    delete(40);
+    display();
+
 }
 
 void append_via_traversal(int new_data){
@@ -63,6 +67,7 @@ void append_via_traversal(int new_data){
     // agar ye upar wala pahela node hai to first node ko head kahete hai and done
     if (head == NULL){
         head = new_node;
+        tail = new_node;
         return;
     }
 
@@ -115,11 +120,25 @@ void display(){
 
 void prepend(int new_data){
     struct Node *new_node = malloc(sizeof(struct Node));
+    
+    if (unable_to_allocate_heap(new_node)){
+        printf("HeapOverflow\n");
+        return;
+    }
+
     new_node -> data = new_data;
+    new_node -> next = head;
+    if (head == NULL){
+        head = new_node;
+        tail = new_node;
+        return;
+    }
+
     new_node -> next = head;
     head = new_node;
 
     print_msg("After Prepending");
+    return;
 }
 
 int length(){
@@ -151,15 +170,27 @@ int search(int value){
 }
 
 void delete_at(int index){
+    
+    if (head == NULL){
+        printf("The list is empty is my dear\n");
+        return;
+    }
+
+    if (index < 0 || index > length()){
+        printf("Index Argument Incorrect");
+        return;
+    }
+
     int pos = 0;
 
     struct Node *current = head;
-    struct Node *prev;
-    struct Node *next;
+    struct Node *prev = NULL;
+    struct Node *next = NULL;
 
-    if (index == 0 && head != NULL){
+    if (index == 0){
         head = head -> next;
         free(current);
+        print_msg("After Deletion at index");
         return;
     }
 
@@ -167,7 +198,7 @@ void delete_at(int index){
         if (pos == index){
             next = current -> next;
             prev -> next = next;
-            if (current -> next == NULL){
+            if (next == NULL){
                 tail = prev;
             }
             free(current);
@@ -181,20 +212,48 @@ void delete_at(int index){
 }
 
 void delete(int value){
-    struct Node *current = head;
-    struct Node *prev = NULL;
-    struct Node *next = NULL;
 
-    if (head -> data == value){
-        head = head -> next;
+    if (head == NULL){
+        printf("The list is empty is my dear\n");
         return;
     }
 
+    if (head -> data == value && head == tail){
+        free(head);
+        head = NULL;
+        tail = NULL;
+        return;
+    }
+
+    struct Node *current = head;
+
+    if (head -> data == value){
+        head = head -> next;
+        free(current);
+
+        print_msg("After Deletion of value");
+        return;
+    }
+
+    struct Node *prev = NULL;
+    struct Node *next = NULL;
+
+
     while (current != NULL){
+
         if (current -> data == value){
+
             next = current -> next;
             prev -> next = next;
+
+            if (next == NULL){
+                tail = prev;
+            }
+
+            free(current);
+            break;
         }
+
         prev = current;
         current = current -> next;
     }
@@ -204,12 +263,27 @@ void delete(int value){
 }
 
 void insert_at_index(int index, int new_data){
+    
+    int size = length();
+
     struct Node *new_node = malloc(sizeof(struct Node));
     new_node -> data = new_data;
     new_node -> next = NULL;
 
     struct Node *current = head;
     struct Node *prev = NULL;
+
+    if (index == size - 1){
+        tail -> next = new_node;
+        tail = new_node;
+        return;
+    }
+
+    if (index < 0 || index > size){
+        printf("Index Argument Incorrect");
+        return;
+    }
+
 
 
     if (index == 0){
@@ -218,10 +292,6 @@ void insert_at_index(int index, int new_data){
         return;
     }
 
-    if (index == length() - 1){
-        tail -> next = new_node;
-        return;
-    }
 
     int insert_pos = 0;
 
@@ -236,12 +306,14 @@ void insert_at_index(int index, int new_data){
         current = current -> next;
         insert_pos++;
     }
-
-
 }
 
-
 void reverse(){
+    
+    if (head == NULL){
+        return;
+    }
+
     struct Node *current = head;
     struct Node *prev = current;
     struct Node *next = current -> next;
@@ -272,4 +344,8 @@ void print_msg(char *str){
         printf("=");
     }
     printf("\n");
+}
+
+bool unable_to_allocate_heap(struct Node *ptr){
+    return ptr == NULL;
 }
