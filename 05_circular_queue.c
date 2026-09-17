@@ -15,9 +15,13 @@ void initialize(Queue *queue){
     queue -> exit = -1;
 }
 
-bool isEmpty(Queue *queue);
+bool isEmpty(Queue *queue){
 
-bool isFull(Queue *queue);
+}
+
+bool isFull(Queue *queue){
+    return queue -> entry % MAX_SIZE == queue -> exit;
+}
 
 void enqueue(Queue *queue, int value){
     queue -> entry++;

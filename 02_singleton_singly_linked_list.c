@@ -17,6 +17,7 @@ void delete_at(int index);
 void delete(int value);
 void insert_at_index(int index, int new_data);
 void reverse();
+void middle_node();
 void print_msg(char *str);
 bool unable_to_allocate_heap(struct Node *ptr);
 
@@ -28,11 +29,15 @@ int main(){
     append_in_single_step(20);
     append_in_single_step(30);
     append_in_single_step(40);
+    middle_node();
     printf("Number of elements is %d\n", length());
     display();
     prepend(1);
+    display();
+    middle_node();
     prepend(2);
     display();
+    middle_node();
     printf("Number of elements is %d\n", length());
 
     printf("The number 10 is at index %d\n", search(10));
@@ -348,4 +353,24 @@ void print_msg(char *str){
 
 bool unable_to_allocate_heap(struct Node *ptr){
     return ptr == NULL;
+}
+
+void middle_node(){
+    struct Node *first = head;
+    struct Node *second = head;
+
+    if (length() % 2 == 0){
+        while (second != NULL){
+            first = first -> next;
+            second = second -> next -> next;
+        }
+    }
+    else {
+        while (second -> next != NULL){
+            first = first -> next;
+            second = second -> next -> next;
+        }
+    }
+
+    printf("The middle node has element %d\n", first -> data);
 }
