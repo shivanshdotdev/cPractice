@@ -165,6 +165,54 @@ void addUsingBFS(Node* node, int value){
     
 }
 
+Node* searchBFS(Node* node, int value){
+    int steps = 0;
+
+    front = back = 0;
+    queue[back++] = node;
+
+    while (front <= back){
+        Node* currentNode = queue[front++];
+        steps++;
+
+        if (currentNode -> value == value){
+            printf("Found %d in %d steps.\n", value, steps);
+            return currentNode;
+        }
+
+        if (currentNode -> left != NULL){
+            queue[back++] = currentNode -> left;
+        }
+
+        if (currentNode -> right != NULL){
+            queue[back++] = currentNode -> right;
+        }
+    }
+
+}
+
+Node* searchDFS(Node* node, int value, int step){
+    
+    int steps = step;
+    steps++;
+
+    if (node -> value == value){
+        printf("Found %d in %d steps.\n", value, steps);
+        return node;
+    }
+    if (node -> left != NULL){
+        searchDFS(node -> left, value, steps);
+    }
+
+    if (node -> right != NULL){
+        searchDFS(node -> right, value, steps);
+    }
+}
+
+void delete(Node* parentNode, Node* nodeToDelete){
+
+}
+
 
 int main(){
     Node *root = malloc(sizeof(Node));
@@ -186,20 +234,20 @@ int main(){
     // printf("InOrder => Left -> Root -> Right\n");
     // traversalInOrder(root);
     
-    // addUsingBFS(root, 2);
-    // addUsingBFS(root, 3);
-    // addUsingBFS(root, 4);
-    // addUsingBFS(root, 5);
-    // addUsingBFS(root, 6);
-    // addUsingBFS(root, 7);
-    // addUsingBFS(root, 8);
-    // addUsingBFS(root, 9);
-    // addUsingBFS(root, 10);
-    // addUsingBFS(root, 11);
-    // addUsingBFS(root, 12);
-    // addUsingBFS(root, 13);
-    // addUsingBFS(root, 14);
-    // addUsingBFS(root, 15);
+    addUsingBFS(root, 2);
+    addUsingBFS(root, 3);
+    addUsingBFS(root, 4);
+    addUsingBFS(root, 5);
+    addUsingBFS(root, 6);
+    addUsingBFS(root, 7);
+    addUsingBFS(root, 8);
+    addUsingBFS(root, 9);
+    addUsingBFS(root, 10);
+    addUsingBFS(root, 11);
+    addUsingBFS(root, 12);
+    addUsingBFS(root, 13);
+    addUsingBFS(root, 14);
+    addUsingBFS(root, 15);
 
     // addUsingDFS(root, 2);
     // addUsingDFS(root, 3);
@@ -216,20 +264,9 @@ int main(){
     // addUsingDFS(root, 14);
     // addUsingDFS(root, 15);
 
-    printf("PostOrder => Left -> Right -> Root\n");
-    traversalPostOrder(root);
+    searchDFS(root, 8, 0);
 
-    printf("BFS\n");
-    traversalBFS(root);
     return 0;
-
-    addUsingDFS(root, 8);
-    addUsingDFS(root, 9);
-    addUsingDFS(root, 10);
-    addUsingDFS(root, 11);
-
-    printf("PostOrder => Left -> Right -> Root\n");
-    traversalPostOrder(root);
 }
 
 
