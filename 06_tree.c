@@ -10,26 +10,26 @@ typedef struct Node {
 Node* queue[100];
 int front = 0, back = 0;
 
-void initialize(Node* tree, int value){
-    tree -> value = value;
-    tree -> left = NULL;
-    tree -> right = NULL;
+void initialize(Node* node, int value){
+    node -> value = value;
+    node -> left = NULL;
+    node -> right = NULL;
 }
 
-void addOnLeft(Node* tree, int value){
+void addOnLeft(Node* node, int value){
     Node* new = malloc(sizeof(Node));
 
     initialize(new, value);
 
-    tree -> left = new;
+    node -> left = new;
 }
 
-void addOnRight(Node* tree, int value){
+void addOnRight(Node* node, int value){
     Node* new = malloc(sizeof(Node));
 
     initialize(new, value);
 
-    tree -> right = new;
+    node -> right = new;
 }
 
 void traversalPostOrder(Node* node){
