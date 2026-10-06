@@ -135,26 +135,86 @@ void traversalBFS(Node* node){
 
 }
 
+void addUsingBFS(Node* node, int value){
+    if (node == NULL){
+        return;
+    }
+
+    front = back = 0;
+    queue[back++] = node;
+
+    while (front <= back){
+        Node* currentNode = queue[front++];
+
+        if (currentNode -> left == NULL){
+            addOnLeft(currentNode, value);
+            break;
+        }
+        else {
+            queue[back++] = currentNode -> left;
+        }
+
+        if (currentNode -> right == NULL){
+            addOnRight(currentNode, value);
+            break;
+        }
+        else {
+            queue[back++] = currentNode -> right;
+        }
+    }
+    
+}
+
 
 int main(){
     Node *root = malloc(sizeof(Node));
 
     initialize(root, 1);
 
-    addOnLeft(root, 2);
-    addOnRight(root, 3);
-
-    addOnLeft(root -> left, 4);
-    addOnRight(root -> left, 5);
-
-    addOnLeft(root -> right, 6);
-    addOnRight(root -> right, 7);
+    // addOnLeft(root, 2);
+    // addOnRight(root, 3);
+    //
+    // addOnLeft(root -> left, 4);
+    // addOnRight(root -> left, 5);
+    //
+    // addOnLeft(root -> right, 6);
+    // addOnRight(root -> right, 7);
 
     // printf("PreOrder => Root -> Left -> Right\n");
     // traversalPreOrder(root);
     //
     // printf("InOrder => Left -> Root -> Right\n");
     // traversalInOrder(root);
+    
+    // addUsingBFS(root, 2);
+    // addUsingBFS(root, 3);
+    // addUsingBFS(root, 4);
+    // addUsingBFS(root, 5);
+    // addUsingBFS(root, 6);
+    // addUsingBFS(root, 7);
+    // addUsingBFS(root, 8);
+    // addUsingBFS(root, 9);
+    // addUsingBFS(root, 10);
+    // addUsingBFS(root, 11);
+    // addUsingBFS(root, 12);
+    // addUsingBFS(root, 13);
+    // addUsingBFS(root, 14);
+    // addUsingBFS(root, 15);
+
+    // addUsingDFS(root, 2);
+    // addUsingDFS(root, 3);
+    // addUsingDFS(root, 4);
+    // addUsingDFS(root, 5);
+    // addUsingDFS(root, 6);
+    // addUsingDFS(root, 7);
+    // addUsingDFS(root, 8);
+    // addUsingDFS(root, 9);
+    // addUsingDFS(root, 10);
+    // addUsingDFS(root, 11);
+    // addUsingDFS(root, 12);
+    // addUsingDFS(root, 13);
+    // addUsingDFS(root, 14);
+    // addUsingDFS(root, 15);
 
     printf("PostOrder => Left -> Right -> Root\n");
     traversalPostOrder(root);
